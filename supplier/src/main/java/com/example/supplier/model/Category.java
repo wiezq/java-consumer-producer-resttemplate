@@ -1,5 +1,6 @@
 package com.example.supplier.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -18,7 +19,14 @@ public class Category extends BaseEntity {
     @Column(name = "name", columnDefinition = "VARCHAR(255)", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
+
+    public Category() {
+    }
+
+    public Category(String name) {
+        this.name = name;
+    }
 
 }

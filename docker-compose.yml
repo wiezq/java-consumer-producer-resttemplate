@@ -43,3 +43,4 @@ services:
         SPRING_DATASOURCE_URL: jdbc:postgresql://psql:5432/supplier
         SPRING_DATASOURCE_USERNAME: postgres
         SPRING_DATASOURCE_PASSWORD: postgres
+        API_URL : http://supplier:8080
