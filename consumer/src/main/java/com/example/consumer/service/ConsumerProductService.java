@@ -46,7 +46,7 @@ public class ConsumerProductService {
         return restTemplate.exchange(uriBuilder.toUriString(),
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ProductResponseDto>() {
+                new ParameterizedTypeReference<>() {
                 });
     }
 
@@ -55,7 +55,7 @@ public class ConsumerProductService {
         return restTemplate.exchange(url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<ProductDto>() {
+                new ParameterizedTypeReference<>() {
                 });
     }
 
@@ -69,7 +69,7 @@ public class ConsumerProductService {
         return restTemplate.exchange(url,
                 HttpMethod.PUT,
                 new HttpEntity<>(productDto),
-                new ParameterizedTypeReference<ProductDto>() {
+                new ParameterizedTypeReference<>() {
                 });
     }
 
