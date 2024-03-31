@@ -3,18 +3,26 @@ package com.example.supplier;
 import com.example.supplier.category.Category;
 import com.example.supplier.category.CategoryDto;
 import com.example.supplier.category.CategoryRepository;
+import com.example.supplier.config.EnablePostgresTestContainerContextCustomizerFactory.EnabledPostgresTestContainer;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matchers;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
-import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 
-public class CategoryControllerTest extends BaseControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@EnabledPostgresTestContainer
+@Slf4j
+public class CategoryControllerTest {
+
+    @LocalServerPort
+    protected Integer port;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -33,6 +41,7 @@ public class CategoryControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateCategory() {
+        log.info("Port: {}", port);
         CategoryDto categoryDto = createCategoryDto("Electronics");
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -47,6 +56,7 @@ public class CategoryControllerTest extends BaseControllerTest {
 
     @Test
     public void testGetExistedCategory() {
+        log.info("Port: {}", port);
         Category category = createCategory("Electronics");
         RestAssured
                 .given()

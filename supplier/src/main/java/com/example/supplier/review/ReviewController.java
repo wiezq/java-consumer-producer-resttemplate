@@ -65,8 +65,13 @@ public class ReviewController {
     )
     @GetMapping(value = "/products/{id}", produces = "application/json")
     public ResponseEntity<List<ReviewDto>> getAllReviews(@PathVariable Long id) {
+        List<Review> allReviews = reviewService.getAllReviews(id);
+        if (allReviews.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok().body(
-                reviewService.getAllReviews(id).stream()
+                allReviews.stream()
                         .map(this::mapToDto)
                         .toList());
     }

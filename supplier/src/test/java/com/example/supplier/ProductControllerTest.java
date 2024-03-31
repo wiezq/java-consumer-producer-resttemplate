@@ -2,23 +2,33 @@ package com.example.supplier;
 
 import com.example.supplier.category.Category;
 import com.example.supplier.category.CategoryRepository;
+import com.example.supplier.config.EnablePostgresTestContainerContextCustomizerFactory.EnabledPostgresTestContainer;
 import com.example.supplier.product.Product;
 import com.example.supplier.product.ProductRepository;
-import com.example.supplier.product.dto.ProductCreateDto;
 import com.example.supplier.product.dto.PageResponse;
+import com.example.supplier.product.dto.ProductCreateDto;
 import com.example.supplier.product.dto.ProductResponseDto;
 import com.example.supplier.rating.Rating;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ProductControllerTest extends BaseControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@EnabledPostgresTestContainer
+@Slf4j
+public class ProductControllerTest{
+
+    @LocalServerPort
+    Integer port;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -40,6 +50,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateProductWithExistedCategory() {
+        log.info("Port: {}", port);
         Category category = createCategory("Electronics");
         ProductCreateDto productDto = createProductDto(
                 "Laptop",
@@ -64,6 +75,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateProductWithNonExistedCategory() {
+        log.info("Port: {}", port);
         ProductCreateDto productDto = createProductDto(
                 "Laptop",
                 1000L,

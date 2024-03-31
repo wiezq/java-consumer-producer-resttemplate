@@ -41,6 +41,10 @@ public class RatingService {
     public void deleteReviewCase(Rating rating, Review deletedReview) {
         int newTotalReviews = rating.getTotalReviews() - 1;
         long newTotalRating = rating.getTotalRating() - deletedReview.getRating();
+        if (newTotalReviews == 0) {
+            updateRating(rating, newTotalReviews, newTotalRating, 0.0f);
+            return;
+        }
         float newAverageRating = calculateAverageRating(newTotalReviews, newTotalRating);
         updateRating(rating, newTotalReviews, newTotalRating, newAverageRating);
     }
