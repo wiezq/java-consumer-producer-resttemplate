@@ -50,7 +50,8 @@ public class EnablePostgresTestContainerContextCustomizerFactory implements Cont
                     "spring.datasource.password", postgresContainer.getPassword(),
                     // Prevent any in memory db from replacing the data source
                     // See @AutoConfigureTestDatabase
-                    "spring.test.database.replace", "NONE"
+                    "spring.test.database.replace", "NONE",
+                    "spring.datasource.hikari.connection-timeout", "1000"
             );
             var propertySource = new MapPropertySource("PostgresContainer Test Properties", properties);
             context.getEnvironment().getPropertySources().addFirst(propertySource);

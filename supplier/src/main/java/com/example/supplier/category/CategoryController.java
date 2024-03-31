@@ -1,5 +1,6 @@
 package com.example.supplier.category;
 
+import com.example.supplier.exception.ErrorDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,13 +20,6 @@ public interface CategoryController {
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = CategoryDto.class))),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Bad request, validation error",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    schema = @Schema()))
-
             }
     )
     ResponseEntity<?> createCategory(CategoryDto categoryDto);
@@ -67,7 +61,7 @@ public interface CategoryController {
                             description = "Category not found",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema()))
+                                    schema = @Schema(implementation = ErrorDetails.class)))
             }
     )
     ResponseEntity<?> getCategoryById(Long id);
@@ -88,7 +82,7 @@ public interface CategoryController {
                             description = "Category not found",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema()))
+                                    schema = @Schema(implementation = ErrorDetails.class)))
             }
     )
     ResponseEntity<?> updateCategory(Long id, CategoryDto categoryDto);
@@ -109,7 +103,7 @@ public interface CategoryController {
                             description = "Category not found",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema()))
+                                    schema = @Schema(implementation = ErrorDetails.class)))
             }
     )
     ResponseEntity<?> deleteCategory(Long id);

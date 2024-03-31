@@ -46,7 +46,7 @@ public class ProductMapper {
 
         long maxPrice = Long.parseLong(filterParams.getOrDefault("maxPrice", Long.MAX_VALUE + ""));
         if (maxPrice < 0) {
-            throw new IllegalArgumentException("maxPrice must be greater than or equal to 0");
+            throw new IllegalArgumentException("maxPrice must lower than or equal to " + Long.MAX_VALUE);
         }
 
         float minRating = Float.parseFloat(filterParams.getOrDefault("minRating", "0"));

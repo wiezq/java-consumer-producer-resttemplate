@@ -1,12 +1,11 @@
-package com.example.consumer.dto;
+package com.example.consumer.review;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+
+@Data
+@AllArgsConstructor
 public class ReviewDto {
     private Long id;
     private int rating;

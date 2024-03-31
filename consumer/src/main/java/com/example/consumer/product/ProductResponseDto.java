@@ -1,13 +1,15 @@
-package com.example.consumer.dto;
+package com.example.consumer.product;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
-public class ProductDto {
+import java.util.List;
+
+
+@Data
+public class ProductResponseDto {
     private Long id;
     private Long price;
     private Long categoryId;

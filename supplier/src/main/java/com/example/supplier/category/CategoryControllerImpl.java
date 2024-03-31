@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/api/categories", produces = "application/json")
 @AllArgsConstructor
-public class CategoryControllerImpl {
+public class CategoryControllerImpl implements CategoryController{
     private final CategoryService categoryService;
 
 
@@ -38,7 +38,7 @@ public class CategoryControllerImpl {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoryById(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
         return ResponseEntity
                 .ok()
                 .body(mapToDto(categoryService.getCategoryById(id)));
@@ -46,7 +46,7 @@ public class CategoryControllerImpl {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable @Min(1) Long id,
+    public ResponseEntity<?> updateCategory(@PathVariable Long id,
                                             @RequestBody CategoryDto categoryDto) {
         Category category = mapToEntity(categoryDto);
         Category updatedCategory = categoryService.updateCategory(id, category);
@@ -57,7 +57,7 @@ public class CategoryControllerImpl {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable @Min(1) Long id) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return ResponseEntity.ok().build();
     }

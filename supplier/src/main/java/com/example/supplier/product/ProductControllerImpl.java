@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/products")
 @AllArgsConstructor
-public class ProductControllerImpl {
+public class ProductControllerImpl implements ProductController{
 
     private final ProductService productService;
 
@@ -48,14 +48,16 @@ public class ProductControllerImpl {
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto getProductById(@PathVariable Long id) {
-        return productMapper.mapToResponseProductDto(productService.getProductById(id));
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        ProductResponseDto productResponseDto = productMapper.mapToResponseProductDto(productService.getProductById(id));
+        return ResponseEntity.ok().body(productResponseDto);
     }
 
     @PutMapping("/{id}")
-    public ProductResponseDto updateProduct(@RequestBody ProductUpdateDto productDto) {
+    public ResponseEntity<?> updateProduct(@RequestBody ProductUpdateDto productDto) {
         Product updatedProduct = productService.updateProduct(productDto);
-        return productMapper.mapToResponseProductDto(updatedProduct);
+        ProductResponseDto responseDto = productMapper.mapToResponseProductDto(updatedProduct);
+        return ResponseEntity.ok().body(responseDto);
     }
 
     @DeleteMapping("/{id}")
