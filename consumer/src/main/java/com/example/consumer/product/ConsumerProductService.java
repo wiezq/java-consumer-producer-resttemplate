@@ -5,9 +5,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
@@ -98,7 +104,8 @@ public class ConsumerProductService {
                     builder.toUriString(),
                     HttpMethod.GET,
                     null,
-                    new ParameterizedTypeReference<PageResponse<ProductResponseDto>>() {});
+                    new ParameterizedTypeReference<PageResponse<ProductResponseDto>>() {
+                    });
             return response.getBody();
         } catch (HttpClientErrorException.BadRequest e) {
             log.error("Invalid filter parameters: {}", e.getMessage());

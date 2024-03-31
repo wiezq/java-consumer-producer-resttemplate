@@ -1,6 +1,5 @@
 package com.example.supplier.category;
 
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

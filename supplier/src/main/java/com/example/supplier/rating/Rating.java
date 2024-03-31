@@ -1,6 +1,5 @@
 package com.example.supplier.rating;
 
-import com.example.supplier.product.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

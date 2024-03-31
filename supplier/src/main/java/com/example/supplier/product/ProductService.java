@@ -1,10 +1,10 @@
 package com.example.supplier.product;
 
+import com.example.supplier.category.CategoryService;
 import com.example.supplier.exception.ResourceNotFoundException;
-import com.example.supplier.rating.Rating;
 import com.example.supplier.product.dto.ProductUpdateDto;
 import com.example.supplier.product.specification.ProductSpecification;
-import com.example.supplier.category.CategoryService;
+import com.example.supplier.rating.Rating;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

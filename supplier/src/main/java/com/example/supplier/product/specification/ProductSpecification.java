@@ -2,7 +2,6 @@ package com.example.supplier.product.specification;
 
 import com.example.supplier.product.Product;
 import com.example.supplier.product.ProductFilterRequest;
-import jakarta.persistence.criteria.Predicate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

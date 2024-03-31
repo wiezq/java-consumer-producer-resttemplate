@@ -1,13 +1,17 @@
-# Приложение для демонстрации работы с API на Spring Boot, Hibernate и PostgreSQL, Testcontainers, Docker, Swagger.
+# Приложение для демонстрации работы с API на Spring Boot, Hibernate, CriteriaAPI, Testcontainers, Docker, Swagger.
 ###
 Приложение представляет собой простой API для управления продуктами, категориями и ревью на продукты.
 Ревью добавляет или убавляет средний рейтинг продукта при добавлении, удалении, а также изменении.
-Также реализована фильтрация продуктов по цене, рейтингу, категории и описанию.
+Также реализована фильтрация продуктов по цене, рейтингу, категории и описанию с помощью Criteria API.
 
  Подробную документацию и схемы API можно найти в [Swagger](http://localhost:8080/swagger-ui/index.html).
 
 ## Updated 
 - Добавлены интеграционные тесты контроллеров с использованием Testcontainers.
+
+При запуске тестов создается один контейнер с PostgreSQL и удаляется после завершения тестов, а также создается один контекст.
+Это реализовано с помощью EnablePostgresTestContainerContextCustomizerFactory который находится в /Users/ivan/IdeaProjects/t1_task1/supplier/src/test/java/com/example/supplier/config/
+
 
 Для запуска тестов выполните следующую команду в папке supplier
 

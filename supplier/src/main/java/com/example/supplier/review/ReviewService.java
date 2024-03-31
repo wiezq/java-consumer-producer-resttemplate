@@ -2,8 +2,8 @@ package com.example.supplier.review;
 
 import com.example.supplier.exception.ResourceNotFoundException;
 import com.example.supplier.product.Product;
-import com.example.supplier.rating.Rating;
 import com.example.supplier.product.ProductService;
+import com.example.supplier.rating.Rating;
 import com.example.supplier.rating.RatingService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

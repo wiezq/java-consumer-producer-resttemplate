@@ -1,11 +1,6 @@
 package com.example.consumer.product;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.List;
 
 
 @Data
