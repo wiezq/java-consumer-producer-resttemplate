@@ -10,7 +10,7 @@
 - Добавлены интеграционные тесты контроллеров с использованием Testcontainers.
 
 При запуске тестов создается один контейнер с PostgreSQL и удаляется после завершения тестов, а также создается один контекст.
-Это реализовано с помощью EnablePostgresTestContainerContextCustomizerFactory который находится в /Users/ivan/IdeaProjects/t1_task1/supplier/src/test/java/com/example/supplier/config/
+Это реализовано с помощью EnablePostgresTestContainerContextCustomizerFactory который находится в [конфиг папке](https://github.com/wiezq/java-consumer-producer-resttemplate/tree/task5_testcontainers/supplier/src/test/java/com/example/supplier/config)
 
 
 Для запуска тестов выполните следующую команду в папке supplier
