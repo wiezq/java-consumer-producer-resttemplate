@@ -24,7 +24,7 @@ Windows:
 ```bash
 gradlew.bat test
 ```
-Или же в ручную запустите тесты в Intellij IDEA.
+Или же вручную запустите тесты в Intellij IDEA.
 
 
 
