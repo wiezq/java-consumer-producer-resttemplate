@@ -5,9 +5,9 @@ spring:
     password: postgres
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        generate_statistics: true
+#    properties:
+#      hibernate:
+#        generate_statistics: true
     hibernate:
       ddl-auto: create-drop
 

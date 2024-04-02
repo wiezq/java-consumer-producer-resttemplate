@@ -1,82 +1,145 @@
 package com.example.consumer;
 
-import com.example.consumer.dto.ProductDto;
-import com.example.consumer.dto.ProductFilterRequest;
-import com.example.consumer.dto.ProductResponseDto;
-import com.example.consumer.dto.ReviewDto;
-import com.example.consumer.service.ConsumerProductService;
-import com.example.consumer.service.ConsumerReviewService;
+import com.example.consumer.category.CategoryDto;
+import com.example.consumer.category.ConsumerCategoryService;
+import com.example.consumer.product.ConsumerProductService;
+import com.example.consumer.product.ProductCreateDto;
+import com.example.consumer.product.ProductResponseDto;
+import com.example.consumer.product.ProductUpdateDto;
+import com.example.consumer.review.ConsumerReviewService;
+import com.example.consumer.review.ReviewDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.ResponseEntity;
+
+import java.util.Map;
 
 @SpringBootApplication
 @Slf4j
 public class ConsumerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ConsumerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ConsumerApplication.class, args);
+    }
 
 
-	@Bean
-	CommandLineRunner commandLineRunner(ConsumerProductService productService, ConsumerReviewService reviewService){
-		return args -> {
-			// Get all products
-			ProductFilterRequest filterRequest = new ProductFilterRequest();
-			filterRequest.setMinRating(3.0f);
-			filterRequest.setMaxRating(5.0f);
-			ProductResponseDto allProducts = productService.getAllProducts(
-					0,
-					5,
-					"asc",
-					"price", filterRequest).getBody();
-			while (!allProducts.isLast()){
-				log.info("{}", allProducts.getContent());
-				allProducts = productService.getAllProducts(
-						allProducts.getNumber() + 1,
-						5,
-						"asc",
-						"price", filterRequest).getBody();
-			}
+    @Bean
+    CommandLineRunner commandLineRunner(ConsumerCategoryService consumerCategoryService,
+                                        ConsumerProductService consumerProductService,
+                                        ConsumerReviewService consumerReviewService) {
+        return args -> {
 
+            // CATEGORY
+            // GET
+            log.info("Fetching category by id: 1, {}", consumerCategoryService.getCategoryById(1L));
+            log.info("Fetching category by id: 2, {}", consumerCategoryService.getCategoryById(2L));
+            log.info("Fetching category by id: 3, {}", consumerCategoryService.getCategoryById(3L));
 
-			//Create a products
-			ProductDto product1 = new ProductDto();
-			product1.setName("New product1Response from consumer");
-			product1.setDescription("Description product1Response from consumer");
-			product1.setPrice(100L);
-			product1.setCategoryId(1L);
-			ResponseEntity<ProductDto> product1Response = productService.createProduct(product1);
-			log.info("{}", product1Response.getBody());
+            // CREATE
+            CategoryDto categoryFromConsumer =
+                    consumerCategoryService.createCategory(CategoryDto.createCategoryDto("Category from consumer"));
 
-			ProductDto product2 = new ProductDto();
-			product2.setName("New product1Response from consumer 2");
-			product2.setDescription("Description product2Response from consumer 2");
-			product2.setPrice(1000000L);
-			product2.setCategoryId(2L);
-			ResponseEntity<ProductDto> product2Response = productService.createProduct(product2);
-			log.info("{}", product2Response.getBody());
+            log.info("Created category from consumer: {}", categoryFromConsumer);
 
+            // UPDATE
+            consumerCategoryService.updateCategory(categoryFromConsumer.id(),
+                    CategoryDto.createCategoryDto(categoryFromConsumer.id(), "Updated category from consumer"));
 
-			// Create comments
-			ReviewDto reviewDto = new ReviewDto();
-			reviewDto.setComment("This is a comment consumer");
-			reviewDto.setRating(5);
-			ResponseEntity<ReviewDto> review = reviewService.createReview(product1Response.getBody().getId(), reviewDto);
-			log.info("{}", review.getBody());
+            // PRODUCT
+            // GET
+            log.info("Fetching product by id: 1, {}", consumerProductService.getProductById(1L));
+            log.info("Fetching product by id: 2, {}", consumerProductService.getProductById(2L));
+            log.info("Fetching product by id: 3, {}", consumerProductService.getProductById(3L));
 
-			ReviewDto reviewDto2 = new ReviewDto();
-			reviewDto2.setComment("This is a comment consumer 2");
-			reviewDto2.setRating(4);
-			ResponseEntity<ReviewDto> review2 = reviewService.createReview(product2Response.getBody().getId(), reviewDto2);
-			log.info("{}", review2.getBody());
+            // CREATE
+            ProductResponseDto productFromConsumer = consumerProductService.createProduct(new ProductCreateDto(
+                    categoryFromConsumer.id(),
+                    "Product from consumer",
+                    "Product description from consumer",
+                    10000L));
 
-		};
-	}
+            // FILTER
+            log.info("Fetching all product with pagination and filter {}",
+                    consumerProductService.getAllProductsWithFilter(
+                            0, 10, "ASC", "id", null));
+
+            log.info("Fetching all product with pagination and filter {}",
+                    consumerProductService.getAllProductsWithFilter(
+                            0, 10, "ASC", "id",
+                            Map.of(
+                                    "description", "laptop"
+                            )));
+            // UPDATE
+            consumerProductService.updateProduct(new ProductUpdateDto(
+                    productFromConsumer.getId(),
+                    productFromConsumer.getCategoryId(),
+                    "Updated product from consumer",
+                    "Updated product description from consumer",
+                    20000L
+            ));
+
+            // GET UPDATED
+            log.info("Fetching product by id: {}, {}", productFromConsumer.getId(),
+                    consumerProductService.getProductById(productFromConsumer.getId()));
+
+            // DELETE
+            consumerProductService.deleteProduct(productFromConsumer.getId());
+
+            // GET DELETED
+            log.info("Fetching product by id: {}, {}", productFromConsumer.getId(),
+                    consumerProductService.getProductById(productFromConsumer.getId()));
+
+            // REVIEW
+
+            // CREATE
+            ReviewDto reviewFromConsumer = consumerReviewService.createReview(1L, new ReviewDto(
+                    null,
+                    5,
+                    "Review description from consumer",
+                    1L
+            ));
+
+            ReviewDto reviewFromConsumer2 = consumerReviewService.createReview(1L, new ReviewDto(
+                    null,
+                    3,
+                    "Review description from consumer",
+                    1L
+            ));
+
+            ReviewDto reviewFromConsumer3 = consumerReviewService.createReview(1L, new ReviewDto(
+                    null,
+                    5,
+                    "Review description from consumer",
+                    1L
+            ));
+
+            // GET
+            log.info("Fetching review by id: {}, {}", reviewFromConsumer2,
+                    consumerReviewService.getReviewById(reviewFromConsumer2.getId()));
+            // GET ALL
+            log.info("Fetching all reviews by product id: {}, {}", reviewFromConsumer3.getProductId(),
+                    consumerReviewService.getAllReviewsByProductId(reviewFromConsumer3.getProductId()));
+
+            // Changed rating of the 1st product
+            log.info("Fetching product by id: {}, {}", 1L,
+                    consumerProductService.getProductById(1L));
+
+            // UPDATE
+            consumerReviewService.updateReview(reviewFromConsumer2.getId(), new ReviewDto(
+                    reviewFromConsumer2.getId(),
+                    4,
+                    "Updated review description from consumer",
+                    1L
+            ));
+
+            // GET Product with updated rating
+            log.info("Fetching product by id: {}, {}", 1L,
+                    consumerProductService.getProductById(1L));
+
+        };
+    }
 
 }
 
